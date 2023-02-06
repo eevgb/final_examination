@@ -142,35 +142,33 @@ eev@DESKTOP-EUKEKPJ:~$ history
    22  wget https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb
    23  ls
    24  sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
-   25  sudo apt-get install mysql-apt-config_0.8.24-1_all.deb
-   26  sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
-   27  lsb_release -cs
-   28  sudo apt-get install lsb-release
-   29  sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
-   30  sudo apt-get update
-   31  sudo apt-get install mysql-server
-   32  mysql --version
-   33  cd /etc
+   25  lsb_release -cs
+   26  sudo apt-get install lsb-release
+   27  sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
+   28  sudo apt-get update
+   29  sudo apt-get install mysql-server
+   30  mysql --version
+   31  cd /etc
+   32  ls
+   33  cd apt
    34  ls
-   35  cd apt
+   35  cd apt.conf.d
    36  ls
-   37  cd apt.conf.d
-   38  ls
-   39  cd ../
-   40  cd ./sources.list.d
-   41  ls
-   42  cat mysql.list
-   43  cd /tmp
-   44  wget http://ftp.ru.debian.org/debian/pool/main/h/htop/htop_3.0.5-7_amd64.deb
-   45  dpkg -i htop_3.0.5-7_amd64.deb
-   46  sudo dpkg -i htop_3.0.5-7_amd64.deb
-   47  htop
-   48  htop --version
-   49  sudo dpkg -r htop
-   50  cd ~
-   51  ls
-   52  ls -la
-   53  history
+   37  cd ../
+   38  cd ./sources.list.d
+   39  ls
+   40  cat mysql.list
+   41  cd /tmp
+   42  wget http://ftp.ru.debian.org/debian/pool/main/h/htop/htop_3.0.5-7_amd64.deb
+   43  dpkg -i htop_3.0.5-7_amd64.deb
+   44  sudo dpkg -i htop_3.0.5-7_amd64.deb
+   45  htop
+   46  htop --version
+   47  sudo dpkg -r htop
+   48  cd ~
+   49  ls
+   50  ls -la
+   51  history
 ```
 
 6. Нарисовать диаграмму, в которой есть класс родительский класс, домашние животные и вьючные животные, 
