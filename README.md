@@ -13,7 +13,61 @@
 (заполнив файл собаками, кошками, хомяками) и Вьючные животными заполнив файл Лошадьми, верблюдами и ослы), 
 а затем объединить их. Просмотреть содержимое созданного файла.  
 Переименовать файл, дав ему новое имя (Друзья человека).
+
+### Решение
+
+```shell
+eev@DESKTOP-EUKEKPJ:~$ ls
+eev@DESKTOP-EUKEKPJ:~$ cat > pets
+Мурзик cat
+Барсик cat
+Шарик dog
+Бобик dog
+Хомчик hamster
+eev@DESKTOP-EUKEKPJ:~$ cat > pack_animals
+Мустанг horse
+DesertShip camel
+SimpleDonkey donkey
+eev@DESKTOP-EUKEKPJ:~$ cat pets pack_animals > animals
+eev@DESKTOP-EUKEKPJ:~$ cat animals
+Мурзик cat
+Барсик cat
+Шарик dog
+Бобик dog
+Хомчик hamster
+Мустанг horse
+DesertShip camel
+SimpleDonkey donkey
+eev@DESKTOP-EUKEKPJ:~$ mv ./animals ./mans_friends
+eev@DESKTOP-EUKEKPJ:~$ ls
+mans_friends  pack_animals  pets
+eev@DESKTOP-EUKEKPJ:~$ cat mans_friends
+Мурзик cat
+Барсик cat
+Шарик dog
+Бобик dog
+Хомчик hamster
+Мустанг horse
+DesertShip camel
+SimpleDonkey donkey
+eev@DESKTOP-EUKEKPJ:~$
+```
+
 2. Создать директорию, переместить файл туда.
+
+### Решение
+
+```shell
+eev@DESKTOP-EUKEKPJ:~$ mkdir ./animals
+eev@DESKTOP-EUKEKPJ:~$ mv ./mans_friends ./animals
+eev@DESKTOP-EUKEKPJ:~$ ls -la ./animals/
+total 12
+drwxr-xr-x 2 eev eev 4096 Feb  6 18:38 .
+drwxr-xr-x 3 eev eev 4096 Feb  6 18:38 ..
+-rw-r--r-- 1 eev eev  150 Feb  6 18:32 mans_friends
+eev@DESKTOP-EUKEKPJ:~$
+```
+
 3. Подключить дополнительный репозиторий MySQL. Установить любой пакет из этого репозитория.
 4. Установить и удалить deb-пакет с помощью dpkg.
 5. Выложить историю команд в терминале ubuntu.
