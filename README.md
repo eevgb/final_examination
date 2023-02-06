@@ -69,8 +69,110 @@ eev@DESKTOP-EUKEKPJ:~$
 ```
 
 3. Подключить дополнительный репозиторий MySQL. Установить любой пакет из этого репозитория.
+
+### Решение
+
+```shell
+# Обновляем, устанавливаем gnupg
+eev@DESKTOP-EUKEKPJ:~$ sudo apt-get update
+eev@DESKTOP-EUKEKPJ:~$ sudo apt-get upgrade
+eev@DESKTOP-EUKEKPJ:~$ sudo apt-get install gnupg
+eev@DESKTOP-EUKEKPJ:~$ cd /tmp
+# Переходим в папку /tmp, загружаем Ubuntu / Debian (Architecture Independent), DEB Package
+# который подготовит apt-репозиторий и установит ключи. Устанавливаем его
+eev@DESKTOP-EUKEKPJ:/tmp$ wget https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb
+eev@DESKTOP-EUKEKPJ:/tmp$ sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
+# В результате в /etc/apt/sources.list.d будет создан файл mysql.list
+# Обновляем репозитории, устанавливаем mysql-server
+eev@DESKTOP-EUKEKPJ:/tmp$ sudo apt-get update
+eev@DESKTOP-EUKEKPJ:/tmp$ sudo apt-get install mysql-server
+# Результат
+eev@DESKTOP-EUKEKPJ:/tmp$ mysql --version
+mysql  Ver 8.0.32 for Linux on x86_64 (MySQL Community Server - GPL)
+```
+
 4. Установить и удалить deb-пакет с помощью dpkg.
+
+### Решение
+
+```shell
+# Загружаем пакет htop, устанавливаем при помощи dpkg
+eev@DESKTOP-EUKEKPJ:/tmp$ wget http://ftp.ru.debian.org/debian/pool/main/h/htop/htop_3.0.5-7_amd64.deb
+eev@DESKTOP-EUKEKPJ:/tmp$ sudo dpkg -i htop_3.0.5-7_amd64.deb
+(Reading database ... 13930 files and directories currently installed.)
+Preparing to unpack htop_3.0.5-7_amd64.deb ...
+Unpacking htop (3.0.5-7) ...
+Setting up htop (3.0.5-7) ...
+# Проверяем установленную версию
+eev@DESKTOP-EUKEKPJ:/tmp$ htop --version
+htop 3.0.5
+# Удаляем пакет
+eev@DESKTOP-EUKEKPJ:/tmp$ sudo dpkg -r htop
+(Reading database ... 13930 files and directories currently installed.)
+Removing htop (3.0.5-7) ...
+```
+
 5. Выложить историю команд в терминале ubuntu.
+
+### Решение
+
+```shell
+eev@DESKTOP-EUKEKPJ:~$ history
+    1  ls
+    2  cat > pets
+    3  cat > pack_animals
+    4  cat pets pack_animals > animals
+    5  cat animals
+    6  mv ./animals ./mans_friends
+    7  ls
+    8  less mans_friends
+    9  cat mans_friends
+   10  mkdir ./animals
+   11  mv ./mans_friends ./animals
+   12  ls -la ./animals/
+   13  sudo apt-get update
+   14  sudo apt-get upgrade
+   15  sudo apt-get install gnupg
+   16  pwd
+   17  cd /tmp
+   18  ls
+   19  wget https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb
+   20  whereis wget
+   21  sudo apt-get install wget
+   22  wget https://dev.mysql.com/get/mysql-apt-config_0.8.24-1_all.deb
+   23  ls
+   24  sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
+   25  sudo apt-get install mysql-apt-config_0.8.24-1_all.deb
+   26  sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
+   27  lsb_release -cs
+   28  sudo apt-get install lsb-release
+   29  sudo dpkg -i mysql-apt-config_0.8.24-1_all.deb
+   30  sudo apt-get update
+   31  sudo apt-get install mysql-server
+   32  mysql --version
+   33  cd /etc
+   34  ls
+   35  cd apt
+   36  ls
+   37  cd apt.conf.d
+   38  ls
+   39  cd ../
+   40  cd ./sources.list.d
+   41  ls
+   42  cat mysql.list
+   43  cd /tmp
+   44  wget http://ftp.ru.debian.org/debian/pool/main/h/htop/htop_3.0.5-7_amd64.deb
+   45  dpkg -i htop_3.0.5-7_amd64.deb
+   46  sudo dpkg -i htop_3.0.5-7_amd64.deb
+   47  htop
+   48  htop --version
+   49  sudo dpkg -r htop
+   50  cd ~
+   51  ls
+   52  ls -la
+   53  history
+```
+
 6. Нарисовать диаграмму, в которой есть класс родительский класс, домашние животные и вьючные животные, 
 в составы которых в случае домашних животных войдут классы: собаки, кошки, хомяки, а в класс вьючные животные 
 войдут: Лошади, верблюды и ослы).
