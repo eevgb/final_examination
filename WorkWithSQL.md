@@ -5,6 +5,9 @@
 6. Нарисовать диаграмму, в которой есть класс родительский класс, домашние животные и вьючные животные,
    в составы которых в случае домашних животных войдут классы: собаки, кошки, хомяки, а в класс вьючные животные
    войдут: Лошади, верблюды и ослы).
+
+![Cats and dogs](DatabaseDiagram.png)
+
 7. В подключенном MySQL репозитории создать базу данных “Друзья человека”
 ----
 ### Решение
@@ -73,9 +76,9 @@ Query OK, 0 rows affected (0.0134 sec)
                                           ->     skill
                                           -> )
                                           -> VALUES
-                                          -> ('Шарик', '2022-01-01', 'сидеть'),
-                                          -> ('Бобик', '2021-01-01', 'лежать'),
-                                          -> ('Полкан', '2012-01-01', 'фас');
+                                          ->    ('Шарик', '2022-01-01', 'сидеть'),
+                                          ->    ('Бобик', '2021-01-01', 'лежать'),
+                                          ->    ('Полкан', '2012-01-01', 'фас');
 Query OK, 3 rows affected (0.0056 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 ```
@@ -113,7 +116,7 @@ Empty set (0.0005 sec)
 
 ```shell
 MySQL localhost:3306 ssl mans_friends SQL > CREATE TABLE pack_animals (
-                                         -> idpack_animals INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+                                         ->   idpack_animals INT PRIMARY KEY NOT NULL AUTO_INCREMENT
                                          -> )
                                          -> SELECT
                                          ->     name,
@@ -139,10 +142,10 @@ MySQL localhost:3306 ssl mans_friends SQL > SELECT * FROM pack_animals;
 
 ```shell
 MySQL localhost:3306 ssl mans_friends SQL > INSERT INTO pack_animals (
-                                         -> name,
-                                         -> birthday,
-                                         -> skill,
-                                         -> animal_type)
+                                         ->   name,
+                                         ->   birthday,
+                                         ->   skill,
+                                         ->   animal_type)
                                          -> SELECT name, birthday, skill, 'donkey' as animal_type
                                          -> FROM donkey;
 Query OK, 2 rows affected (0.0030 sec)
@@ -185,30 +188,30 @@ MySQL localhost:3306 ssl mans_friends SQL > SELECT * FROM pet;
 
 ```shell
 MySQL localhost:3306 ssl mans_friends SQL > CREATE TABLE young_animals (
-                                         -> idyoung_animals INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+                                         ->   idyoung_animals INT PRIMARY KEY NOT NULL AUTO_INCREMENT
                                          -> )
                                          -> SELECT
-                                         -> name,
-                                         -> birthday,
-                                         -> skill,
-                                         -> animal_type,
-                                         -> (TIMESTAMPDIFF(MONTH, birthday, CURDATE())) as age
+                                         ->   name,
+                                         ->   birthday,
+                                         ->   skill,
+                                         ->   animal_type,
+                                         ->   (TIMESTAMPDIFF(MONTH, birthday, CURDATE())) as age_months
                                          -> FROM
-                                         -> (SELECT * FROM pack_animals UNION SELECT * FROM pet) s
+                                         ->   (SELECT * FROM pack_animals UNION SELECT * FROM pet) s
                                          -> WHERE birthday BETWEEN CURDATE() - INTERVAL 3 YEAR 
                                          ->       AND CURDATE() - INTERVAL 1 YEAR;
 Query OK, 4 rows affected (0.0143 sec)
 Records: 4  Duplicates: 0  Warnings: 0
 
 MySQL localhost:3306 ssl mans_friends SQL > SELECT * FROM young_animals;
-+-----------------+-----------+---------------------+--------+-------------+-----+
-| idyoung_animals | name      | birthday            | skill  | animal_type | age |
-+-----------------+-----------+---------------------+--------+-------------+-----+
-|               1 | Осел      | 2021-01-01 00:00:00 | везти  | donkey      |  25 |
-|               2 | Тоже_Осел | 2022-01-01 00:00:00 | везти  | donkey      |  13 |
-|               3 | Шарик     | 2022-01-01 00:00:00 | сидеть | dog         |  13 |
-|               4 | Бобик     | 2021-01-01 00:00:00 | лежать | dog         |  25 |
-+-----------------+-----------+---------------------+--------+-------------+-----+
++-----------------+-----------+---------------------+--------+-------------+------------+
+| idyoung_animals | name      | birthday            | skill  | animal_type | age_months |
++-----------------+-----------+---------------------+--------+-------------+------------+
+|               1 | Осел      | 2021-01-01 00:00:00 | везти  | donkey      |         25 |
+|               2 | Тоже_Осел | 2022-01-01 00:00:00 | везти  | donkey      |         13 |
+|               3 | Шарик     | 2022-01-01 00:00:00 | сидеть | dog         |         13 |
+|               4 | Бобик     | 2021-01-01 00:00:00 | лежать | dog         |         25 |
++-----------------+-----------+---------------------+--------+-------------+------------+
 4 rows in set (0.0005 sec)
 ```
 
@@ -222,12 +225,12 @@ MySQL localhost:3306 ssl mans_friends SQL > CREATE TABLE animals (
                                          -> idanimals INT PRIMARY KEY NOT NULL AUTO_INCREMENT
                                          -> )
                                          -> SELECT
-                                         -> name,
-                                         -> birthday,
-                                         -> skill,
-                                         -> animal_type
+                                         ->   name,
+                                         ->   birthday,
+                                         ->   skill,
+                                         ->   animal_type
                                          -> FROM
-                                         -> (SELECT * FROM pack_animals UNION SELECT * FROM pet) s;
+                                         ->   (SELECT * FROM pack_animals UNION SELECT * FROM pet) s;
 Query OK, 10 rows affected (0.0129 sec)
 Records: 10  Duplicates: 0  Warnings: 0
 
