@@ -1,8 +1,8 @@
 ﻿namespace AnimalRegistryAPI.Models.Requests
 {
-    public class UpdeteKindOfAnimalRequest
+    public class UpdateKindOfAnimalRequest
     {
         public int KindOfAnimalId { get; set; }
-        public string Kind { get; set; }
+        public string? Kind { get; set; }
     }
 }
