@@ -12,8 +12,8 @@ namespace AnimalRegistryAPI.DBUtils
             MySqlCommand command = connection.CreateCommand();
 
             // После убрать
-            command.CommandText = "DROP DATABASE IF EXISTS animalregistry";
-            command.ExecuteNonQuery();
+            //command.CommandText = "DROP DATABASE IF EXISTS animalregistry";
+            //command.ExecuteNonQuery();
 
             command.CommandText = "CREATE DATABASE IF NOT EXISTS animalregistry";
             command.ExecuteNonQuery();
@@ -47,7 +47,7 @@ namespace AnimalRegistryAPI.DBUtils
             command.ExecuteNonQuery();
             command.CommandText =
                     @"CREATE TABLE IF NOT EXISTS animal_skill(
-                    ianimal_skill INTEGER PRIMARY KEY auto_increment,
+                    idanimal_skill INTEGER PRIMARY KEY auto_increment,
                     idanimal INTEGER,
                     idskill INTEGER,
                     FOREIGN KEY (idanimal) REFERENCES animal (idanimal) ON DELETE CASCADE,

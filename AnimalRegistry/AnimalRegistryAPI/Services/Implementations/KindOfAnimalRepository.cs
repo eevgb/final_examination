@@ -42,7 +42,7 @@ namespace AnimalRegistryAPI.Services.Implementations
             return command.ExecuteNonQuery();
         }
 
-        public IList<KindOfAnimal> GetAll(int id = 0)
+        public IList<KindOfAnimal> GetAll()
         {
             List<KindOfAnimal> list = new();
             using MySqlConnection connection = new DBMySQLUtils().GetMySQLConnection();

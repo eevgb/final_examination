@@ -49,10 +49,10 @@ namespace AnimalRegistryAPI.Controllers
         }
 
         [HttpGet("get-all")]
-        [SwaggerOperation(OperationId = "GetAllKindOfAnimal")]
-        public ActionResult<List<KindOfAnimal>> GetAll(int KindOfAnimalId)
+        [SwaggerOperation(OperationId = "GetAllKindsOfAnimal")]
+        public ActionResult<List<KindOfAnimal>> GetAll()
         {
-            return Ok(_kindOfAnimalRepository.GetAll(KindOfAnimalId));
+            return Ok(_kindOfAnimalRepository.GetAll());
         }
 
         [HttpGet("get-by-id")]
