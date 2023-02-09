@@ -11,7 +11,7 @@ namespace AnimalRegistryAPI.Services.Implementations
             using MySqlConnection connection = new DBMySQLUtils().GetMySQLConnection();
             connection.Open();
             MySqlCommand command = connection.CreateCommand();
-            command.CommandText = @"INSERT INTO kind_of_animal(idkind_of_animal, name, birthday, description) 
+            command.CommandText = @"INSERT INTO animal(idkind_of_animal, name, birthday, description) 
                                         VALUES(@idkind_of_animal, @name, @birthday, @description)";
             command.Parameters.Add("@idkind_of_animal", MySqlDbType.Int32).Value = item.KindOfAnimalId;
             command.Parameters.Add("@name", MySqlDbType.VarChar).Value = item.Name;
@@ -26,13 +26,11 @@ namespace AnimalRegistryAPI.Services.Implementations
             connection.Open();
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = @"UPDATE animal SET 
-                                    idkind_of_animal = @idkind_of_animal,
                                     name = @name,
                                     birthday = @birthday,
                                     description = @description
                                     WHERE idanimal=@idanimal";
             command.Parameters.Add("@idanimal", MySqlDbType.Int32).Value = item.AnimalId;
-            command.Parameters.Add("@idkind_of_animal", MySqlDbType.Int32).Value = item.KindOfAnimalId;
             command.Parameters.Add("@name", MySqlDbType.VarChar).Value = item.Name;
             command.Parameters.Add("@birthday", MySqlDbType.DateTime).Value = item.Birthday;
             command.Parameters.Add("@description", MySqlDbType.VarChar).Value = item.Description;

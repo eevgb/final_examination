@@ -24,8 +24,8 @@ namespace AnimalRegistryAPI.Services.Implementations
             connection.Open();
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = @"UPDATE animal_skill SET 
-                                    idanimal = @idanimal,
-                                    idskill = @idskill";
+                                    idskill = @idskill
+                                    WHERE idanimal_skill = @idanimal_skill";
             command.Parameters.Add("@idanimal_skill", MySqlDbType.Int32).Value = item.AnimalSkillId;
             command.Parameters.Add("@idanimal", MySqlDbType.Int32).Value = item.AnimalId;
             command.Parameters.Add("@idskill", MySqlDbType.Int32).Value = item.SkilId;

@@ -23,6 +23,7 @@ namespace AnimalRegistryAPI.Controllers
         {
             int res = _animalRepository.Create(new Animal
             {
+                KindOfAnimalId = createRequest.KindOfAnimalId,
                 Name = createRequest.Name,
                 Birthday = createRequest.Birthday,
                 Description = createRequest.Description,

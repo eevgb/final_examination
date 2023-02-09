@@ -36,7 +36,7 @@ namespace AnimalRegistryAPI.Controllers
             int res = _skillRepository.Update(new Skill
             {
                 SkillId = updateRequest.SkillId,
-                KindOfAnimalId = updateRequest.KindOfAnimalId,
+                //KindOfAnimalId = updateRequest.KindOfAnimalId,
                 CharacterSkill = updateRequest.CharacterSkill,
             });
             return Ok(res);
