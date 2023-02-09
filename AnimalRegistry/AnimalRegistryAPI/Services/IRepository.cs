@@ -2,7 +2,7 @@
 {
     public interface IRepository<T, TId>
     {
-        IList<T> GetAll(int id = 0);
+        IList<T> GetAll();
         T GetById(TId id);
         int Create(T item);
         int Update(T item);
