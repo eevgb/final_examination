@@ -78,6 +78,7 @@ namespace RegistryDesktopApp
                 skills.Add(s.CharacterSkill);
             }
             AnimalSkillListBox.ItemsSource = skills;
+            AnimalDescriptionLabel.Content = animal.Description;
         }
 
         /*
