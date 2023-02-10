@@ -5,8 +5,131 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RegistryDesktopApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Реестр животных" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <Label DockPanel.Dock="Top" Content="Список животных"  
+               HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="16"/>
+            <ListView x:Name="AnimalListView" DockPanel.Dock="Bottom">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="#" Width="30" DisplayMemberBinding="{Binding AnimalId}"/>
+                        <GridViewColumn Header="Вид животного" Width="100" DisplayMemberBinding="{Binding KindOfAnimalId}"/>
+                        <GridViewColumn Header="Кличка" Width="140" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Дата рождения" Width="150" DisplayMemberBinding="{Binding Birthday}"/>
+                        <GridViewColumn Header="Комментарий" Width="200" DisplayMemberBinding="{Binding Description}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+        <Button x:Name="AddAnimalButton" Content="Добавить" 
+                Grid.Column="3" Grid.Row="0" Margin="0,40,0,0"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Width="90" Click="AddAnimalButton_Click"/>
+        <Button x:Name="UpdateAnimalButton" Content="Редактировать" 
+                Grid.Column="3" Grid.Row="0" Margin="0,70,0,0" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" Width="90"/>
+        <Button x:Name="DeleteAnimalButton" Content="Удалить" 
+                Grid.Column="3" Grid.Row="0" Margin="0,100,0,0" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" Width="90" Click="DeleteAnimalButton_Click"/>
 
+        <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+            <DockPanel.Background>
+                <SolidColorBrush Color="#FFEAF1F9"/>
+            </DockPanel.Background>
+            <Label DockPanel.Dock="Top" Content="Данные по выбраному животному " 
+                   VerticalAlignment="Top" FontSize="16" HorizontalContentAlignment="Center">
+                <Label.Background>
+                    <SolidColorBrush Color="#FFB9D1EA"/>
+                </Label.Background>
+            </Label>
+            <Grid Margin="5,5,5,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <Label DockPanel.Dock="Top" Content="Кличка" HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="12"/>
+                    <Label x:Name="AnimalNameLabel" DockPanel.Dock="Top" HorizontalAlignment="Center"  VerticalAlignment="Top" />
+                </DockPanel>
+                <DockPanel Grid.Column="1">
+                    <Label DockPanel.Dock="Top" Content="Вид" HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="12"/>
+                    <Label x:Name="AnimalKindLabel" DockPanel.Dock="Top" HorizontalAlignment="Center"  VerticalAlignment="Top" />
+                </DockPanel>
+                <DockPanel Grid.Column="2">
+                    <Label DockPanel.Dock="Top" Content="Дата рождения" HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="12"/>
+                    <Label x:Name="AnimalBirthLabel" DockPanel.Dock="Top" HorizontalAlignment="Center"  VerticalAlignment="Top" />
+                </DockPanel>
+                <DockPanel Grid.Column="3">
+                    <Label DockPanel.Dock="Top" Content="Навыки" HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="12"/>
+                    <ListBox x:Name="AnimalSkillListBox"/>
+                </DockPanel>
+                <DockPanel Grid.Column="4">
+                    <Button x:Name="AddAnimalSkillButton" Content="Добавить" Margin="0,30,0,0" 
+                            HorizontalAlignment="Center" VerticalAlignment="Top" Width="90"/>
+                </DockPanel>
+                <DockPanel Grid.Column="5">
+                    <Label DockPanel.Dock="Top" Content="Комментарий" HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="12"/>
+                    <Label x:Name="AnimalDescriptionLabel" DockPanel.Dock="Top" HorizontalAlignment="Center"  VerticalAlignment="Top" />
+                </DockPanel>
+            </Grid>
+        </DockPanel>
+
+        <DockPanel Grid.Row="2" Grid.Column="0">
+            <Label DockPanel.Dock="Top" Content="Виды животных"  
+               HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="16"/>
+            <ListView x:Name="KindListView" DockPanel.Dock="Bottom" SelectionChanged="KindListView_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="#" Width="30" DisplayMemberBinding="{Binding KindOfAnimalId}"/>
+                        <GridViewColumn Header="Вид животного" Width="150" DisplayMemberBinding="{Binding Kind}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+        <Button x:Name="AddKindButton" Content="Добавить" 
+                Grid.Column="1" Grid.Row="2" Margin="0,40,0,0"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Width="90" Click="AddKindButton_Click"/>
+        <Button x:Name="UpdateKindButton" Content="Редактировать" 
+                Grid.Column="1" Grid.Row="2" Margin="0,70,0,0" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" Width="90"/>
+        <Button x:Name="DeleteKindButton" Content="Удалить" 
+                Grid.Column="1" Grid.Row="2" Margin="0,100,0,0" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" Width="90" Click="DeleteKindButton_Click"/>
+        <DockPanel Grid.Row="2" Grid.Column="2">
+            <Label DockPanel.Dock="Top" Content="Навыки животных"  
+               HorizontalAlignment="Center"  VerticalAlignment="Top" FontSize="16"/>
+            <ListView x:Name="SkillListView" d:ItemsSource="{d:SampleData ItemCount=5}" DockPanel.Dock="Bottom">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="#" Width="30" DisplayMemberBinding="{Binding SkillId}"/>
+                        <GridViewColumn Header="Навык животного" Width="150" DisplayMemberBinding="{Binding CharacterSkill}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+        <Button x:Name="AddSkillButton" Content="Добавить" 
+                Grid.Column="3" Grid.Row="2" Margin="0,40,0,0"
+                HorizontalAlignment="Center" VerticalAlignment="Top" Width="90" Click="AddSkillButton_Click"/>
+        <Button x:Name="UpdateSkillButton" Content="Редактировать" 
+                Grid.Column="3" Grid.Row="2" Margin="0,70,0,0" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" Width="90"/>
+        <Button x:Name="DeleteSkillButton" Content="Удалить" 
+                Grid.Column="3" Grid.Row="2" Margin="0,100,0,0" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" Width="90" Click="DeleteSkillButton_Click"/>
     </Grid>
 </Window>

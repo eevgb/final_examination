@@ -1,6 +1,8 @@
-﻿using System;
+﻿using RegistryDesktopApp.DialogWindows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +22,208 @@ namespace RegistryDesktopApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static readonly string BASEURL = "http://bcomms.ru:5000";
         public MainWindow()
         {
             InitializeComponent();
+            PrepareTables();
         }
+
+        /*
+         * Начальная настройка списков
+         */
+        private void PrepareTables() 
+        {
+            HttpClient httpClient = new();
+            AnimalRegistryClient client = new(BASEURL, httpClient);
+            ICollection<Animal> animals = client.GetAllAnimalsAsync().Result;
+            ICollection<KindOfAnimal> kinds = client.GetAllKindsOfAnimalAsync().Result;
+            ICollection<Skill> skills = client.GetAllSkillsAsync().Result;
+
+            AnimalListView.ItemsSource = animals;
+            if (animals.Count > 0)
+            {
+                AnimalListView.SelectedIndex = 0;
+                ShowAnimalFullData(animals.ElementAt(0).AnimalId);
+            }
+            KindListView.ItemsSource = kinds;
+            if (kinds.Count > 0)
+            {
+                KindListView.SelectedIndex = 0;
+                KindOfAnimal kind = (KindOfAnimal)KindListView.SelectedItem;
+                skills = client.GetAllSkillsByAnimalKindIdAsync(kind.KindOfAnimalId).Result;
+            }
+            SkillListView.ItemsSource = skills;
+            if (skills.Count > 0) 
+            {
+                SkillListView.SelectedIndex = 0;
+            }
+            
+        }
+
+        private void ShowAnimalFullData(int id) 
+        {
+            HttpClient httpClient = new();
+            AnimalRegistryClient client = new(BASEURL, httpClient);
+            Animal animal = client.GetAnimalByIdAsync(id).Result;
+            AnimalNameLabel.Content = animal.Name;
+            KindOfAnimal kind = client.GetKindOfAnimalByIdAsync(animal.KindOfAnimalId).Result;
+            AnimalKindLabel.Content = kind.Kind;
+            AnimalBirthLabel.Content = animal.Birthday;
+            ICollection<AnimalSkill> animalSkills = client.GetAllAnimalSkillsByAnimalIdAsync(animal.AnimalId).Result;
+            List<string> skills = new List<string>();
+            foreach(var skill in animalSkills)
+            {
+                Skill s = client.GetSkillByIdAsync(skill.SkilId).Result;
+                skills.Add(s.CharacterSkill);
+            }
+            AnimalSkillListBox.ItemsSource = skills;
+        }
+
+        /*
+         * Методы работы со списком животных
+         */
+
+        private void AddAnimalButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddAnimalDialog dialog = new()
+            {
+                Owner = this
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                RefreshAnimalList();
+            }
+        }
+
+        private void DeleteAnimalButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Хотите удалить запись?",
+                "Удалить запись",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning) == MessageBoxResult.OK)
+            {
+                Animal animal = (Animal)AnimalListView.SelectedItem;
+                if (animal != null)
+                {
+                    HttpClient httpClient = new();
+                    AnimalRegistryClient client = new(BASEURL, httpClient);
+                    client.DeleteAnimalAsync(animal.AnimalId).Wait();
+                    RefreshAnimalList();
+                }
+            }
+        }
+
+        private void RefreshAnimalList()
+        {
+            HttpClient httpClient = new();
+            AnimalRegistryClient client = new(BASEURL, httpClient);
+            ICollection<Animal> animals = client.GetAllAnimalsAsync().Result;
+            AnimalListView.ItemsSource = animals;
+            AnimalListView.SelectedIndex = 0;
+        }
+
+        /*
+         * Методы работы со списком видов животных
+         */
+        private void AddKindButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddKindOfAnimalDialog dialog = new ()
+            {
+                Owner = this
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                RefreshKindList();
+            }
+        }
+
+        private void DeleteKindButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Хотите удалить запись?",
+                "Удалить запись",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning) == MessageBoxResult.OK)
+            {
+                KindOfAnimal kind = (KindOfAnimal)KindListView.SelectedItem;
+                if (kind != null)
+                {
+                    HttpClient httpClient = new();
+                    AnimalRegistryClient client = new(BASEURL, httpClient);
+                    client.DeleteKindOfAnimalAsync(kind.KindOfAnimalId).Wait();
+                    RefreshKindList();
+                    RefreshSkillList(0);
+                }
+            }
+        }
+
+        private void RefreshKindList()
+        {
+            HttpClient httpClient = new();
+            AnimalRegistryClient client = new(BASEURL, httpClient);
+            ICollection<KindOfAnimal> kinds = client.GetAllKindsOfAnimalAsync().Result;
+            KindListView.ItemsSource = kinds;
+            KindListView.SelectedIndex = 0;
+        }
+
+        private void KindListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            HttpClient httpClient = new();
+            AnimalRegistryClient client = new(BASEURL, httpClient);
+            KindOfAnimal kind = (KindOfAnimal)KindListView.SelectedItem;
+            if (kind != null)
+            {
+                ICollection<Skill> skills = client.GetAllSkillsByAnimalKindIdAsync(kind.KindOfAnimalId).Result;
+                SkillListView.ItemsSource = skills;
+            }
+        }
+
+        /*
+         * Методы работы со списком навыков
+         */
+        private void AddSkillButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (KindListView.SelectedItem != null)
+            {
+                KindOfAnimal kind = (KindOfAnimal)KindListView.SelectedItem;
+                AddSkillDialog dialog = new(kind.KindOfAnimalId)
+                {
+                    Owner = this
+                };
+                if (dialog.ShowDialog() == true)
+                {
+                    RefreshSkillList(kind.KindOfAnimalId);
+                }
+            }
+        }
+
+        private void DeleteSkillButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Хотите удалить запись?", 
+                "Удалить запись", 
+                MessageBoxButton.OKCancel, 
+                MessageBoxImage.Warning) == MessageBoxResult.OK)
+            {
+                Skill skill = (Skill)SkillListView.SelectedItem;
+                if (skill != null)
+                {
+                    HttpClient httpClient = new();
+                    AnimalRegistryClient client = new(BASEURL, httpClient);
+                    client.DeleteSkillAsync(skill.SkillId).Wait();
+                    RefreshSkillList(skill.KindOfAnimalId);
+                }
+            }
+        }
+
+        private void RefreshSkillList(int kindOfAnimalId)
+        {
+            HttpClient httpClient = new();
+            AnimalRegistryClient client = new(BASEURL, httpClient);
+            ICollection<Skill> skills = client.GetAllSkillsByAnimalKindIdAsync(kindOfAnimalId).Result;
+            SkillListView.ItemsSource = skills;
+            SkillListView.SelectedIndex = 0;
+        }
+
+        
     }
 }
