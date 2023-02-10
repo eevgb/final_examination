@@ -11,10 +11,6 @@ namespace AnimalRegistryAPI.DBUtils
 
             MySqlCommand command = connection.CreateCommand();
 
-            // После убрать
-            //command.CommandText = "DROP DATABASE IF EXISTS animalregistry";
-            //command.ExecuteNonQuery();
-
             command.CommandText = "CREATE DATABASE IF NOT EXISTS animalregistry";
             command.ExecuteNonQuery();
 

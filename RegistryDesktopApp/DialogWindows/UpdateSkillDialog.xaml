@@ -1,0 +1,27 @@
+﻿<Window x:Class="RegistryDesktopApp.DialogWindows.UpdateSkillDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RegistryDesktopApp.DialogWindows"
+        mc:Ignorable="d"
+        Title="Редактирование навыка животного" Height="130" Width="320" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label Content="Измените навык животного" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <TextBox x:Name="UpdateSkillTextBox" 
+                     Width="180" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        </StackPanel>
+        <Button x:Name="SaveUpdateSkillButton" IsCancel="True" Grid.Column="1" Content="Ок" HorizontalAlignment="Center" 
+                Margin="0,10,0,0" VerticalAlignment="Top" Width="74" Click="SaveUpdateSkillButton_Click" />
+        <Button x:Name="CancelUpdateSkillButton" IsCancel="True" Grid.Column="1" Content="Отмена" HorizontalAlignment="Center" 
+                Margin="0,40,0,0" VerticalAlignment="Top" Width="74" />
+    </Grid>
+</Window>
