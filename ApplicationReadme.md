@@ -31,3 +31,62 @@
     блоке try-with-resources. Нужно бросить исключение, если работа с объектом типа счетчик была не в
     ресурсном try и/или ресурс остался открыт. Значение считать в ресурсе try,
     если при заведении животного заполнены все поля.
+
+## Решение AnimalRegistry
+
+Решение выполнено в двух частях - WebAPI REST сервис AnimalRegistryAPI и клиентское приложение RegistryDesktopApp
+
+Сервис - [AnimalRegistry/AnimalRegistryAPI](AnimalRegistry/AnimalRegistryAPI)  
+Клиентское приложение - [RegistryDesktopApp](RegistryDesktopApp)
+
+### AnimalRegistryAPI
+
+1. Решение выполнено для СУБД MySQL.
+2. API собрано в docker-контейнер blinktreeman/animalregistryapi https://hub.docker.com/repository/docker/blinktreeman/animalregistryapi/general
+3. Для работы с MySQL добавлен контейнер с СУБД
+4. API при помощи docker-compose развернуто по адресу http://bcomms.ru:5000/
+
+Диаграмма классов
+
+![Diagram](APIClassDiagram.png)
+
+### Клиентское приложение RegistryDesktopApp
+
+Для приложения выбрана платформа WPF. Для работы с API сгенерирован Swagger client
+
+Общий вид приложения
+
+![](images/mainwin.png)
+
+#### Добавление видов животных
+
+![](images/addCamel.png)
+
+С видами животных также доступны операции редактирования и удаления
+
+#### Добавление навыков для животных
+
+Навыки привязаны к конкретному типу животного
+
+![](images/camelSkill.png)
+
+Также доступны операции изменения и удаления
+
+#### Добавление животного
+
+Выбираем вид животного, имя, дату рождения, добавляем комментарий
+
+![](images/addCamelShip.png)
+
+Детальные данные по животному.  
+Навыки (команды) у вновь созданного животного отсутствуют.
+
+![](images/emptySkills.png)
+
+#### "Обучаем" животное добавляем навыки
+
+![](images/setSkill.png)
+
+Животное "обучили" команде/навыку
+
+![](images/skillDone.png)
