@@ -69,7 +69,7 @@ namespace RegistryDesktopApp
             AnimalNameLabel.Content = animal.Name;
             KindOfAnimal kind = client.GetKindOfAnimalByIdAsync(animal.KindOfAnimalId).Result;
             AnimalKindLabel.Content = kind.Kind;
-            AnimalBirthLabel.Content = animal.Birthday;
+            AnimalBirthLabel.Text = animal.Birthday.ToString();
             ICollection<AnimalSkill> animalSkills = client.GetAllAnimalSkillsByAnimalIdAsync(animal.AnimalId).Result;
             List<string> skills = new List<string>();
             foreach(var skill in animalSkills)
@@ -78,7 +78,7 @@ namespace RegistryDesktopApp
                 skills.Add(s.CharacterSkill);
             }
             AnimalSkillListBox.ItemsSource = skills;
-            AnimalDescriptionLabel.Content = animal.Description;
+            AnimalDescriptionLabel.Text = animal.Description;
         }
 
         /*
@@ -88,6 +88,19 @@ namespace RegistryDesktopApp
         private void AddAnimalButton_Click(object sender, RoutedEventArgs e)
         {
             AddAnimalDialog dialog = new()
+            {
+                Owner = this
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                RefreshAnimalList();
+            }
+        }
+
+        private void UpdateAnimalButton_Click(object sender, RoutedEventArgs e)
+        {
+            Animal animal = (Animal)AnimalListView.SelectedItem;
+            UpdateAnimalDialog dialog = new(animal)
             {
                 Owner = this
             };
@@ -124,12 +137,34 @@ namespace RegistryDesktopApp
             AnimalListView.SelectedIndex = 0;
         }
 
+        private void AnimalListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Animal animal = (Animal)AnimalListView.SelectedItem;
+            if (animal != null)
+            {
+                ShowAnimalFullData(animal.AnimalId);
+            }
+        }
+
         /*
          * Методы работы со списком видов животных
          */
         private void AddKindButton_Click(object sender, RoutedEventArgs e)
         {
             AddKindOfAnimalDialog dialog = new ()
+            {
+                Owner = this
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                RefreshKindList();
+            }
+        }
+
+        private void UpdateKindButton_Click(object sender, RoutedEventArgs e)
+        {
+            KindOfAnimal kindOfAnimal = (KindOfAnimal)KindListView.SelectedItem;
+            UpdateKindOfAnimalDialog dialog = new(kindOfAnimal)
             {
                 Owner = this
             };
@@ -198,6 +233,19 @@ namespace RegistryDesktopApp
             }
         }
 
+        private void UpdateSkillButton_Click(object sender, RoutedEventArgs e)
+        {
+            Skill skill = (Skill)SkillListView.SelectedItem;
+            UpdateSkillDialog dialog = new(skill)
+            {
+                Owner = this
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                RefreshSkillList(skill.KindOfAnimalId);
+            }
+        }
+
         private void DeleteSkillButton_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Хотите удалить запись?", 
@@ -223,6 +271,22 @@ namespace RegistryDesktopApp
             ICollection<Skill> skills = client.GetAllSkillsByAnimalKindIdAsync(kindOfAnimalId).Result;
             SkillListView.ItemsSource = skills;
             SkillListView.SelectedIndex = 0;
+        }
+
+        private void AddAnimalSkillButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (KindListView.SelectedItem != null)
+            {
+                Animal animal = (Animal)AnimalListView.SelectedItem;
+                AddAnimalSkillDialog dialog = new(animal)
+                {
+                    Owner = this
+                };
+                if (dialog.ShowDialog() == true)
+                {
+                    ShowAnimalFullData(animal.AnimalId);
+                }
+            }
         }
 
         
