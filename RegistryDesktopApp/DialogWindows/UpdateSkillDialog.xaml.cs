@@ -30,8 +30,7 @@ namespace RegistryDesktopApp.DialogWindows
 
         private void SaveUpdateSkillButton_Click(object sender, RoutedEventArgs e)
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(MainWindow.BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
 
             UpdateSkillRequest request = new()
             {

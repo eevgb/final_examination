@@ -22,7 +22,6 @@ namespace RegistryDesktopApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static readonly string BASEURL = "http://bcomms.ru:5000";
         public MainWindow()
         {
             InitializeComponent();
@@ -34,9 +33,8 @@ namespace RegistryDesktopApp
          */
         private void PrepareTables() 
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(BASEURL, httpClient);
-            ICollection<Animal> animals = client.GetAllAnimalsAsync().Result;
+            AnimalRegistryClient client = new RegistryClient().GetClient();
+            ICollection <Animal> animals = client.GetAllAnimalsAsync().Result;
             ICollection<KindOfAnimal> kinds = client.GetAllKindsOfAnimalAsync().Result;
             ICollection<Skill> skills = client.GetAllSkillsAsync().Result;
 
@@ -58,13 +56,11 @@ namespace RegistryDesktopApp
             {
                 SkillListView.SelectedIndex = 0;
             }
-            
         }
 
         private void ShowAnimalFullData(int id) 
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             Animal animal = client.GetAnimalByIdAsync(id).Result;
             AnimalNameLabel.Content = animal.Name;
             KindOfAnimal kind = client.GetKindOfAnimalByIdAsync(animal.KindOfAnimalId).Result;
@@ -120,8 +116,7 @@ namespace RegistryDesktopApp
                 Animal animal = (Animal)AnimalListView.SelectedItem;
                 if (animal != null)
                 {
-                    HttpClient httpClient = new();
-                    AnimalRegistryClient client = new(BASEURL, httpClient);
+                    AnimalRegistryClient client = new RegistryClient().GetClient();
                     client.DeleteAnimalAsync(animal.AnimalId).Wait();
                     RefreshAnimalList();
                 }
@@ -130,8 +125,7 @@ namespace RegistryDesktopApp
 
         private void RefreshAnimalList()
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             ICollection<Animal> animals = client.GetAllAnimalsAsync().Result;
             AnimalListView.ItemsSource = animals;
             AnimalListView.SelectedIndex = 0;
@@ -184,8 +178,7 @@ namespace RegistryDesktopApp
                 KindOfAnimal kind = (KindOfAnimal)KindListView.SelectedItem;
                 if (kind != null)
                 {
-                    HttpClient httpClient = new();
-                    AnimalRegistryClient client = new(BASEURL, httpClient);
+                    AnimalRegistryClient client = new RegistryClient().GetClient();
                     client.DeleteKindOfAnimalAsync(kind.KindOfAnimalId).Wait();
                     RefreshKindList();
                     RefreshSkillList(0);
@@ -195,8 +188,7 @@ namespace RegistryDesktopApp
 
         private void RefreshKindList()
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             ICollection<KindOfAnimal> kinds = client.GetAllKindsOfAnimalAsync().Result;
             KindListView.ItemsSource = kinds;
             KindListView.SelectedIndex = 0;
@@ -204,8 +196,7 @@ namespace RegistryDesktopApp
 
         private void KindListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             KindOfAnimal kind = (KindOfAnimal)KindListView.SelectedItem;
             if (kind != null)
             {
@@ -256,8 +247,7 @@ namespace RegistryDesktopApp
                 Skill skill = (Skill)SkillListView.SelectedItem;
                 if (skill != null)
                 {
-                    HttpClient httpClient = new();
-                    AnimalRegistryClient client = new(BASEURL, httpClient);
+                    AnimalRegistryClient client = new RegistryClient().GetClient();
                     client.DeleteSkillAsync(skill.SkillId).Wait();
                     RefreshSkillList(skill.KindOfAnimalId);
                 }
@@ -266,8 +256,7 @@ namespace RegistryDesktopApp
 
         private void RefreshSkillList(int kindOfAnimalId)
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             ICollection<Skill> skills = client.GetAllSkillsByAnimalKindIdAsync(kindOfAnimalId).Result;
             SkillListView.ItemsSource = skills;
             SkillListView.SelectedIndex = 0;
@@ -288,7 +277,5 @@ namespace RegistryDesktopApp
                 }
             }
         }
-
-        
     }
 }

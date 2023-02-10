@@ -25,8 +25,7 @@ namespace RegistryDesktopApp.DialogWindows
         {
             InitializeComponent();
             _animal = animal;
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(MainWindow.BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             KindOfAnimal kind = client.GetKindOfAnimalByIdAsync(animal.KindOfAnimalId).Result;
             UpdateKindOfAnimalLabel.Content = kind.Kind;
             UpdateAnimalNameTextBox.Text = animal.Name;
@@ -36,9 +35,7 @@ namespace RegistryDesktopApp.DialogWindows
 
         private void SaveUpdateAnimalButton_Click(object sender, RoutedEventArgs e)
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(MainWindow.BASEURL, httpClient);
-
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             UpdateAnimalRequest request = new()
             {
                 AnimalId = _animal.AnimalId,

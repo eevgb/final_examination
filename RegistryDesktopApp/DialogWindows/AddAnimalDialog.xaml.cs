@@ -28,8 +28,7 @@ namespace RegistryDesktopApp.DialogWindows
 
         private void PrepareDialog()
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(MainWindow.BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             KindOfAnimalComboBox.ItemsSource = client.GetAllKindsOfAnimalAsync().Result;
         }
 
@@ -42,8 +41,7 @@ namespace RegistryDesktopApp.DialogWindows
         {
             if (KindOfAnimalComboBox.SelectedIndex != -1 && BirthdayPicker.SelectedDate != null)
             {
-                HttpClient httpClient = new();
-                AnimalRegistryClient client = new(MainWindow.BASEURL, httpClient);
+                AnimalRegistryClient client = new RegistryClient().GetClient();
                 KindOfAnimal kind = (KindOfAnimal)KindOfAnimalComboBox.SelectedItem;
                 CreateAnimalRequest request = new()
                 {

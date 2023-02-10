@@ -27,8 +27,7 @@ namespace RegistryDesktopApp.DialogWindows
 
         private void SaveKindButton_Click(object sender, RoutedEventArgs e)
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(MainWindow.BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             CreateKindOfAnimalRequest request = new()
             { 
                 Kind = KindTextBox.Text

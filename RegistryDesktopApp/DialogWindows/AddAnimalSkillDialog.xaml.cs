@@ -30,16 +30,14 @@ namespace RegistryDesktopApp.DialogWindows
 
         private void PrepareDialog()
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(MainWindow.BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             ICollection<Skill> skills = client.GetAllSkillsByAnimalKindIdAsync(_animal.KindOfAnimalId).Result;
             AnimalSkillComboBox.ItemsSource = skills;
         }
 
         private void SaveAnimalSkillButton_Click(object sender, RoutedEventArgs e)
         {
-            HttpClient httpClient = new();
-            AnimalRegistryClient client = new(MainWindow.BASEURL, httpClient);
+            AnimalRegistryClient client = new RegistryClient().GetClient();
             Skill skill = (Skill)AnimalSkillComboBox.SelectedItem;
             CreateAnimalSkillRequest request = new()
             {
